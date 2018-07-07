@@ -47,7 +47,6 @@ module.exports = function (app, passport, Account) {
     const map = require('./map');
     const chat = require('./chat');
     const error = require('./error');
-    const teklogin = require('./api/teknesian/login');
 
     app.post('/register', function(req, res) {
         Account.register(
@@ -88,7 +87,6 @@ module.exports = function (app, passport, Account) {
         activePage: {isAuthenticated: req.isAuthenticated()}
     })}
     );
-    app.post('/api/teknesian/getnumber', teklogin.getnumber);
     app.get('/package_add', package_add.get);
     app.get('/map', map.get);
     app.get('/chat', chat.get);
