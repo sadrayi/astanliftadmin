@@ -1,0 +1,337 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+<div class="x_content">
+    <br>
+    <form method="post" id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">شماره همراه فرد
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="phone" name="phone" readonly value="<%=request.phone%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+                <input id="requestid" name="requestid" readonly <%if (typeof fid !== 'undefined'){%>value="<%=request.requestid%>"<%}else{%>value="<%=id%>"<%}%> type="hidden" required="required" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone"> نام فرد
+                <span class="required">*</span>
+            </label>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <%if (typeof fid !== 'undefined'){%><input type="hidden" name="_id"  value="<%=request._id%>" ><%}%>
+            <input id="sabtkind" name="sabtkind" class="hidden"          <% if (typeof fid !== 'undefined'){%> value="update" <% } else {%> value="register" <%}%>
+            >
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="requester" name="requester" readonly value="<% if (typeof request !== 'undefined'){%><%=request.requester%> <%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="requestkind">بابت
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input readonly id="requestkind" name="requestkind" value="<%if(typeof fid !== 'undefined'){%><%=request.requestkind%><%}else{%><%=request.kind%><%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label">محاسبه ارزش افزوده
+                <br>
+            </label>
+
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="radio">
+                    <label>
+                        <select class=" maliat"  name="arzeshafzude"  id="arzeshafzude" onchange="calculate()"
+                              >
+                            <option <%if(typeof fid!=='undefined'){%><%if(request.arzeshafzude==='0'){%>selected<%}}%> value="0">عدم محاسبه</option>
+                            <option <%if(typeof fid!=='undefined'){%><%if(request.arzeshafzude==='1'){%>selected<%}}%> value="1">محاسبه شود</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    <div/>
+        <div class="form-group">
+
+        <div class="input_fields_wrap">
+        <div>
+            <% if (typeof price !== 'undefined'){%>
+            <%for(i=0;i<price.title.length;i++){%>
+            <div class="x_title">
+                <h2>ردیف <%=i+1%></h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">موضوع <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][title]" value="<%=price.title[i]%>" name="title" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">قیمت واحد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][percost]" value="<%=price.percost[i]%>"  name="percost" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][quantity]" value="<%=price.quantity[i]%>"  name="quantity" class="quantity date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input  id="radif[<%=i%>][comment]" value="<%=price.comment[i]%>"  name="comment" class="date-picker form-control col-md-7 col-xs-12"  type="text">
+                    </div>
+                </div>
+                <div class=""></div>
+
+            </div>
+            <%}}else {%>
+            <% if (typeof fid !== 'undefined'){%>
+            <%for(i=0;i<request.title.length;i++){%>
+            <div class="x_title">
+                <h2>ردیف <%=i+1%></h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">موضوع <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][title]" value="<%=request.title[i]%>" name="title" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">قیمت واحد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][percost]" value="<%=request.percost[i]%>"  name="percost" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[<%=i%>][quantity]" value="<%=request.quantity[i]%>"  name="quantity" class="quantity date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input  id="radif[<%=i%>][comment]" value="<%=request.comment[i]%>"  name="comment" class="date-picker form-control col-md-7 col-xs-12"  type="text">
+                    </div>
+                </div>
+                <div class=""></div>
+
+            </div>
+            <%}}else {%>
+            <div class="x_title">
+                <h2>ردیف ۱</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">موضوع <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][title]" name="title" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">قیمت واحد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][percost]"  name="percost" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][quantity]"  name="quantity" class="quantity date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][comment]" name="comment" class="date-picker form-control col-md-7 col-xs-12"  type="text">
+                    </div>
+                </div>
+                <div class=""></div>
+
+            </div>
+            <%}}%>
+        </div>
+        </div>
+            <div class="form-group col-md-4 col-sm-4 ">
+            </div>
+            <table class="table col-md-4 col-sm-4 table-hover">
+                <tbody>
+                <tr>
+                    <th style="width:50%">مجموع:</th>
+
+                    <td  class="money"style="width:50%; text-align: left" id="Grand"><% if (typeof fid !== 'undefined'){%><%=request.factorsum-request.factormaliat%><%}else {%>0<%}%></td>
+                </tr>
+                <tr>
+                    <th>مالیات (9%)</th>
+                    <input class="hidden"  <% if (typeof fid !== 'undefined'){%>value="<%=request.factormaliat%>"<%}%> name="factormaliat" id="maliatcount1">
+
+                    <td class="money" style="width:50%; text-align: left" id="maliatcount"><% if (typeof fid !== 'undefined'){%><%=request.factormaliat%><%}else {%>0<%}%></td>
+                </tr>
+                <input class="hidden" <% if (typeof fid !== 'undefined'){%>value="<%=request.factorcount%>"<%}%> name="factorcount" id="factorcount">
+                <tr>
+                    <th>قابل پرداخت:</th>
+                    <td class="money" style="width:50%; text-align: left" id="total"><% if (typeof fid !== 'undefined'){%><%=request.factorsum%><%}else {%>0<%}%></td>
+                    <input class="hidden" <% if (typeof fid !== 'undefined'){%>value="<%=request.factorsum%>"<%}%> name="factorsum" id="total1">
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="add_field_button btn btn-primary">افزودن ردیف</button>
+                <a <%
+                    var requestkind;
+                    var type;
+                    var redirecturl;
+                        if(typeof fid !== 'undefined'){
+                        requestkind=request.requestkind
+                            type='update';
+                        }else{
+                            type='save';
+                        requestkind=request.kind
+                        }
+                        if(type='update')
+                    switch(requestkind){
+                        case 'درخواست مشاوره و نظرات':
+                            redirecturl='nezarat_invoice';
+                            break;
+                        case 'درخواست استاندارد':
+                            redirecturl='standard_invoice';
+                            break;
+                        case 'عقد قرارداد سرویس ماهیانه':
+                            redirecturl='contract_invoice';
+                            break;
+                        case 'درخواست تعمیر':
+                            redirecturl='repair_invoice';
+                            break;
+                        case 'درخواست پشتیبانی اداری':
+                            redirecturl='poshtibani_invoice';
+                            break;
+                        case 'فروش آسانسور':
+                            redirecturl='asansorsale_invoice';
+                            break;
+                    }
+                    else
+                            switch(requestkind){
+                                case 'درخواست مشاوره و نظرات':
+                                    redirecturl='nezarat_list';
+                                    break;
+                                case 'درخواست استاندارد':
+                                    redirecturl='standard_list';
+                                    break;
+                                case 'عقد قرارداد سرویس ماهیانه':
+                                    redirecturl='contract_list';
+                                    break;
+                                case 'درخواست تعمیر':
+                                    redirecturl='repair_list';
+                                    break;
+                                case 'درخواست پشتیبانی اداری':
+                                    redirecturl='poshtibani_list';
+                                    break;
+                                case 'فروش آسانسور':
+                                    redirecturl='asansorsale_list';
+                                    break;
+                            }
+ %> href="<%=redirecturl%>" type="submit" class="btn btn-primary">انصراف</a>
+                <button type="submit" class="btn btn-success">ثبت</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+
+
+
+
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="../vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="../vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="../vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="../vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="../vendors/starrr/dist/starrr.js"></script>
+
+<!-- Custom Theme Scripts -->
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persianumber.js"></script>
+<script src="../js/addfactor.js"></script>
+</body>
+</html>
+

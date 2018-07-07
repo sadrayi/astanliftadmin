@@ -1,0 +1,88 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+
+        <div class="x_content">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th> نام و نام خانوادگی</th>
+                    <th>شماره همراه</th>
+                    <th>تاریخ ثبت</th>
+                    <th>مبلغ تخمینی</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>مجید صدرایی</td>
+                    <td>09159090644</td>
+                    <td>1397/02/27</td>
+                    <td class="money">3500000</td>
+                    <td><button type="button" class="btn btn-danger">در انتظار بازدید</button></td>
+                    <td><button type="button" class="btn btn-danger">لغو</button><button onclick="window.location.href = 'factor_add'" type="button" class="btn btn-success">صدور فاکتور</button></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>مجید صدرایی</td>
+                    <td>09159090644</td>
+                    <td>1397/02/27</td>
+                    <td class="money">3500000</td>
+                    <td><button type="button" class="btn btn-warning">در انتظار پرداخت</button></td>
+                    <td><button type="button" class="btn btn-danger">لغو</button><a href = 'factor_add' class="btn btn-success">ویرایش فاکتور</a><a data-target=".bs-example-modal-lg" data-toggle="modal" class="btn btn-success " >پرداخت</a></td>
+                </tr>
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <form id="demo-form2" data-parsley-validate="" novalidate="">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span
+                                        aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">عنوان مدال</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>آیا مطمئن از انجام پرداخت هستید ؟</h4>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="oneprice" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"  class="btn btn-default" data-dismiss="modal">بستن</button>
+                                <button type="submit" class="btn btn-primary">پرداخت هزینه</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+                <tr>
+                    <th scope="row">3</th>
+                    <td>مجید صدرایی</td>
+                    <td>09159090644</td>
+                    <td>1397/02/27</td>
+                    <td class="money">3500000</td>
+                    <td><button type="button" class="btn btn-danger">لغو شده</button></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>مجید صدرایی</td>
+                    <td>09159090644</td>
+                    <td>1397/02/27</td>
+                    <td class="money">3500000</td>
+                    <td><button type="button" class="btn btn-success">پرداخت شده</button></td>
+                    <td><button type="button" class="btn btn-success" onclick="window.location.href = 'invoice_detail'">مشاهده فاکتور</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

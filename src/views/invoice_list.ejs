@@ -1,0 +1,281 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+
+        <div class="x_content">
+            <div class="table-responsive">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap"
+                       cellspacing="0" width="100%">                         <thead>
+                    <tr class="headings">
+                    <th>#</th>
+                    <th> نام و نام خانوادگی</th>
+                    <th>شماره همراه</th>
+                    <th>تاریخ صدور</th>
+                    <th>مبلغ فاکتور</th>
+                    <th>تعداد اقلام</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%for(i=0;i<factorlist.length;i++){%>
+                <tr>
+                    <th scope="row"><%=i%></th>
+                    <td><%=factorlist[i].requester%></td>
+                    <td><%=factorlist[i].phone%></td>
+                    <td class="jalali"><%=factorlist[i].created%></td>
+                    <td class="money"><%=factorlist[i].factorsum%></td>
+                    <td><%=factorlist[i].factorcount%></td>
+                    <%if(typeof factorlist[i].status!=='undefined'){%>
+                    <%if(factorlist[i].status==='paid'){%>
+                    <td class="success">پرداخت شده</td>
+                    <td><a href="invoice_detail?id=<%=factorlist[i]._id%>" type="button" class="btn btn-success"> مشاهده</a></td>
+                    <%}else if(factorlist[i].status==='cancelled'){%>
+                    <td class="normal">لغو شده</td>
+                    <td><a href="invoice_detail?id=<%=factorlist[i]._id%>" type="button" class="btn btn-success"> مشاهده</a></td>
+                    <%}}else{%>
+                    <td class="danger">در انتظار پرداخت</td>
+                    <td>
+                        <a href="factor_add?shid=<%=factorlist[i]._id%>" type="button" class="btn btn-success"> ویرایش</a>
+                        <a data-target=".pay-<%=factorlist[i]._id%>" data-toggle="modal" type="button" class="btn btn-success"> پرداخت</a>
+                        <a data-target=".cancel-<%=factorlist[i]._id%>" data-toggle="modal" type="button" class="btn btn-danger"> لغو</a>
+                        <div class="modal fade pay-<%=factorlist[i]._id%>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form method="post" action="../payment">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span
+                                                        aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">پرداخت <%=factorlist[i].factorsum%> ریال بابت فاکتور شماره <%=factorlist[i]._id%></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label ">نوع پرداخت</label>
+                                                <div class="">
+                                                    <select class="form-control" name="paykind">
+                                                        <option> واریز به حساب</option>
+                                                        <option>نقدی</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label ">تاریخ پرداخت </label>
+                                                <div class="">
+                                                    <input name="paydate" id="paydate" class="normal-example form-control "     >
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <input name="requestid" hidden id="requestid" value="<%=factorlist[i].requestid%>"    >
+                                                    <input name="factorid" hidden id="factrid" value="<%=factorlist[i]._id%>"    >
+                                                    <input name="paysender" hidden id="paysender" value="<%=factorlist[i].phone%>"    >
+                                                    <input name="payreciever" hidden id="payreciever" value="<%=factorlist[i].sherkatid%>"    >
+                                                    <input name="payamount" hidden id="payamount" value="<%=factorlist[i].factorsum%>"    >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label ">توضیحات </label>
+                                                <div class="">
+                                                    <textarea required name="paycomment" id="paycomment" class="form-control "     ></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                                            <button type="submit" class="btn btn-primary">پرداخت</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                    <div class="modal fade cancel-<%=factorlist[i]._id%>" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span
+                                                aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">لغو درخواست شماره <%=factorlist[i]._id%></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>آیا از لغو این فاکتور مطمئن هستید ؟</h4>
+                                    <p><div class=" form-group has-feedback">
+                                    </div></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="invoice_cancell" method="post">
+                                        <input hidden name="_id" value="<%=factorlist[i]._id%>">
+                                        <input hidden name="kind" value="<%=factorlist[i].requestkind%>">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                                        <button type="submit" class="btn btn-primary">لغو فاکتور</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                </tr>
+                <%}%>
+
+
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="../js/moment-jalaali.js"></script>
+
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Datatables -->
+<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons5.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="../vendors/jszip/dist/jszip.min.js"></script>
+<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persian-datepicker.js"></script>
+<script src="../js/persian-date.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".normal-example").pDatepicker({
+            "inline": false,
+            "format": "L",
+            "viewMode": "year",
+            "initialValue": true,
+            "minDate": null,
+            "maxDate": null,
+            "autoClose": true,
+            "position": "auto",
+            "altFormat": "|",
+            "altField": "#altfieldExample",
+            "onlyTimePicker": false,
+            "onlySelectOnDate": true,
+            "calendarType": "persian",
+            "inputDelay": "1200",
+            "observer": false,
+            "calendar": {
+                "persian": {
+                    "locale": "fa",
+                    "showHint": false,
+                    "leapYearMode": "astronomical"
+                },
+                "gregorian": {
+                    "locale": "en",
+                    "showHint": false
+                }
+            },
+            "navigator": {
+                "enabled": true,
+                "scroll": {
+                    "enabled": true
+                },
+                "text": {
+                    "btnNextText": "<",
+                    "btnPrevText": ">"
+                }
+            },
+            "toolbox": {
+                "enabled": true,
+                "calendarSwitch": {
+                    "enabled": false,
+                    "format": "MMMM"
+                },
+                "todayButton": {
+                    "enabled": false,
+                    "text": {
+                        "fa": "امروز",
+                        "en": "Today"
+                    }
+                },
+                "submitButton": {
+                    "enabled": true,
+                    "text": {
+                        "fa": "تایید",
+                        "en": "Submit"
+                    }
+                },
+                "text": {
+                    "btnToday": "امروز"
+                }
+            },
+            "timePicker": {
+                "enabled": false,
+                "step": 1,
+                "hour": {
+                    "enabled": false,
+                    "step": null
+                },
+                "minute": {
+                    "enabled": false,
+                    "step": null
+                },
+                "second": {
+                    "enabled": false,
+                    "step": null
+                },
+                "meridian": {
+                    "enabled": false
+                }
+            },
+            "dayPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY MMMM"
+            },
+            "monthPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "yearPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "responsive": true
+        });
+    });
+</script>
+<script src="../js/persianumber.js"></script></body>
+</html>
+

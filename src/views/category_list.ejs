@@ -1,0 +1,69 @@
+<% include ./partials/start%>
+
+<div class="col-md-12">
+    <div class="x_panel">
+
+        <div class="x_content">
+
+            <div class="row">
+                <%if(typeof sherkat!=='undefined'){%>
+                <%for(i=0;i<sherkat.length;i++){%>
+                <div class="col-md-55">
+                    <div class="thumbnail">
+                        <div class="image view view-first">
+                            <img style="width: 100%; display: block;" src="../images/category_pic/<%=sherkat[i].category_pic%>" alt="image"/>
+                            <div class="mask">
+                                <p><%=sherkat[i].catname%></p>
+                                <div class="tools tools-bottom">
+                                    <a href="#"><i class="fa fa-link"></i></a>
+                                    <a href="category_add?shid=<%=sherkat[i]._id%>"><i class="fa fa-pencil"></i></a>
+                                    <a href="#"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caption">
+                            <p><%=sherkat[i].catname%></p>
+                        </div>
+                    </div>
+                </div>
+                <%}}%>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+
+</div>
+
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persianumber.js"></script>
+
+
+</body>
+</html>

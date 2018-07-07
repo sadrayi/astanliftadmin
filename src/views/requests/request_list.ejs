@@ -1,0 +1,337 @@
+<% include ../partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <% if (typeof message!== 'undefined'){ %>
+        <div class="alert <%=message.kind%> fade in">
+            <strong>  <%=message.content%></strong>
+        </div>
+        <%}%>
+
+        <div class="x_content">
+
+
+            <div class="table-responsive">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap"
+                       cellspacing="0" width="100%">                         <thead>
+                    <tr class="headings">
+
+                        <th class="">شماره درخواست</th>
+                        <th class="">نوع درخواست</th>
+                        <th class=" ">تاریخ مراجعه</th>
+                        <th class=" ">نام درخواست دهنده</th>
+                        <th class=" ">شماره همراه</th>
+                        <th class=" ">وضعیت</th>
+                        <th class=" ">آدرس</th>
+                        <th class=" ">اشتراک</th>
+                        <th class="last">عملیات           </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <% if(typeof sherkatlist!=='undefined'){%>
+                    <% for (i=0;i< sherkatlist.length;i++){%>
+                    <tr>
+                        <td><%=sherkatlist[i]._id%></td>
+                        <td><%=sherkatlist[i].kind%></td>
+                        <td class="jalali"><%if (typeof sherkatlist[i].requestdate!=='undefined'){ %><%=sherkatlist[i].requestdate%><%}else {%><%=sherkatlist[i].created%><%}%></td>
+                        <td><%=sherkatlist[i].requester%></td>
+                        <td><%=sherkatlist[i].phone%></td>
+                        <% if(typeof sherkatlist[i].status!=='undefined'){%>
+                        <% if(sherkatlist[i].status === "factoradded"){%>
+                        <td class="warning">در انتظار پرداخت</td>
+                        <%}else{%>
+                        <% if(sherkatlist[i].status === "paid"){%>
+                        <td class="success">انجام شده</td>
+                        <%}else{%>
+                        <% if(sherkatlist[i].status === "cancelled"){%>
+                        <td class="normal">لغو شده</td>
+                        <%}else{%>
+                        <td class="danger">در انتظار بازدید</td>
+                        <%}}}}else{%>
+                        <td class="danger">در انتظار بازدید</td>
+                        <%}%>
+                        <td><%=sherkatlist[i].address%></td>
+                        <% if( sherkatlist[i].eshterakstatus=='1'){%>
+                        <td class="success">دارد</td>
+                        <%}else{%>
+                        <td class="danger"> ندارد</td>
+                        <%}%>
+                        <td class="nowrap">
+                            <% if( sherkatlist[i].status==='factoradded'){%>
+
+                            <a href="#" class="btn btn-success btn-xs" data-toggle="modal"
+                               data-target=".pay-<%=sherkatlist[i]._id%>"><i class="fa fa-trash-o"></i> پرداخت </a>
+                            <div class="modal fade pay-<%=sherkatlist[i]._id%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <form method="post" action="../payment">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span
+                                                    aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">پرداخت <%=sherkatlist[i].factoramount%> ریال بابت درخواست شماره <%=sherkatlist[i]._id%></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row ">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-md-12 col-sm-12 col-xs-12">نوع پرداخت</label>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <select class="form-control" name="paykind">
+                                                        <option> واریز به حساب</option>
+                                                        <option>نقدی</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="row ">
+
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-md-12 col-sm-12 col-xs-12">تاریخ پرداخت </label>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <input name="paydate" id="paydate" class="normal-example"     >
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <input name="requestid" hidden id="requestid" value="<%=sherkatlist[i]._id%>"    >
+                                                    <input name="factorid" hidden id="factrid" value="<%=sherkatlist[i].factorid%>"    >
+                                                    <input name="paysender" hidden id="paysender" value="<%=sherkatlist[i].phone%>"    >
+                                                    <input name="payreciever" hidden id="payreciever" value="<%=sherkatlist[i].sherkatid%>"    >
+                                                    <input name="payamount" hidden id="payamount" value="<%=sherkatlist[i].factoramount%>"    >
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="row ">
+
+                                            <div class="row form-group">
+                                                <label class="control-label ">توضیحات </label>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <textarea required name="paycomment" id="paycomment" class="form-control "     ></textarea>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                                            <button type="submit" class="btn btn-primary">پرداخت</button>
+                                        </div>
+
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <%} %>
+
+                            <% if( sherkatlist[i].status==='bazdid'){%>
+                            <a href="request_add?shid=<%=sherkatlist[i]._id%>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> ویرایش </a>
+
+                            <% if( sherkatlist[i].kind==='عقد قرارداد سرویس ماهیانه'){%>
+
+                            <a href="add_contract?id=<%=sherkatlist[i]._id%>" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i>  ثبت قرارداد</a>
+                            <%}else {%>
+                            <% if( sherkatlist[i].kind==='درخواست تعمیر'){%>
+                            <a href="tamirform_add?id=<%=sherkatlist[i]._id%>" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i>  ثبت فرم تعمیر</a>
+                            <%}else {%>
+                            <% if( sherkatlist[i].kind==='فروش آسانسور'){%>
+                            <a href="pricing_table?id=<%=sherkatlist[i]._id%>" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i>  ثبت پیش فاکتور</a>
+                            <%}else {%>
+                            <a href="factor_add?id=<%=sherkatlist[i]._id%>" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i>  ثبت پیش فاکتور </a>
+
+                            <%}%>
+                            <%}%>
+                            <%}%>
+                            <%}%>
+
+                            <%if(sherkatlist[i].status!=='paid'){%>
+                            <%if(sherkatlist[i].status!=='cancelled'){%>
+                            <a href="#" class="btn btn-danger btn-xs" data-toggle="modal"
+                               data-target=".cancel-<%=sherkatlist[i]._id%>"><i class="fa fa-trash-o"></i> لغو </a></a>
+                            <div class="modal fade cancel-<%=sherkatlist[i]._id%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span
+                                                    aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">لغو درخواست شماره <%=sherkatlist[i]._id%></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>آیا از لغو این درخواست مطمئن هستید ؟</h4>
+                                            <p><div class=" form-group has-feedback">
+                                        </div></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="request_cancell" method="post">
+                                                <input hidden name="requestid" value="<%=sherkatlist[i]._id%>">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                                            <button type="submit" class="btn btn-primary">لغو درخواست</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                            <%}%>
+                        </td>
+                    </tr>
+                    <%}%>
+                    <%}%>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ../partials/footer%>
+
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="../js/moment-jalaali.js"></script>
+
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Datatables -->
+<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons5.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="../vendors/jszip/dist/jszip.min.js"></script>
+<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persian-datepicker.js"></script>
+<script src="../js/persian-date.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".normal-example").pDatepicker({
+            "inline": false,
+            "format": "L",
+            "viewMode": "year",
+            "initialValue": true,
+            "minDate": null,
+            "maxDate": null,
+            "autoClose": true,
+            "position": "auto",
+            "altFormat": "|",
+            "altField": "#altfieldExample",
+            "onlyTimePicker": false,
+            "onlySelectOnDate": true,
+            "calendarType": "persian",
+            "inputDelay": "1200",
+            "observer": false,
+            "calendar": {
+                "persian": {
+                    "locale": "fa",
+                    "showHint": false,
+                    "leapYearMode": "astronomical"
+                },
+                "gregorian": {
+                    "locale": "en",
+                    "showHint": false
+                }
+            },
+            "navigator": {
+                "enabled": true,
+                "scroll": {
+                    "enabled": true
+                },
+                "text": {
+                    "btnNextText": "<",
+                    "btnPrevText": ">"
+                }
+            },
+            "toolbox": {
+                "enabled": true,
+                "calendarSwitch": {
+                    "enabled": false,
+                    "format": "MMMM"
+                },
+                "todayButton": {
+                    "enabled": false,
+                    "text": {
+                        "fa": "امروز",
+                        "en": "Today"
+                    }
+                },
+                "submitButton": {
+                    "enabled": true,
+                    "text": {
+                        "fa": "تایید",
+                        "en": "Submit"
+                    }
+                },
+                "text": {
+                    "btnToday": "امروز"
+                }
+            },
+            "timePicker": {
+                "enabled": false,
+                "step": 1,
+                "hour": {
+                    "enabled": false,
+                    "step": null
+                },
+                "minute": {
+                    "enabled": false,
+                    "step": null
+                },
+                "second": {
+                    "enabled": false,
+                    "step": null
+                },
+                "meridian": {
+                    "enabled": false
+                }
+            },
+            "dayPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY MMMM"
+            },
+            "monthPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "yearPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "responsive": true
+        });
+    });
+</script>
+<script src="../js/persianumber.js"></script></body>
+</html>
+

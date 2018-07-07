@@ -1,0 +1,360 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel ui-ribbon-container">
+            <div class="ui-ribbon-wrapper">
+                <%if(typeof factor.status==='undefined'){ var status='nopay';%>
+                <div class="ui-ribbon deactiverebbon">
+                    پرداخت نشده
+                </div>
+                <%}else{%>
+                <%if( factor.status==='paid'){var status='paid';%>
+                <div class="ui-ribbon activerebbon">
+                    پرداخت شده
+                </div>
+
+                <%}else{%>
+                <%if( factor.status==='canceled'){var status='nopay';%>
+                <div class="ui-ribbon cancellrebbon">
+                    لغو شده
+                </div>
+                <%}}}%>
+            </div>
+            <div class="x_content ">
+
+                <section class="content invoice ">
+                    <!-- title row -->
+
+                    <div class="row">
+                        <div class="col-xs-12 invoice-header">
+                            <h1>
+                                <i class="fa fa-globe"></i> صورت‌حساب.
+                            </h1>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    <div class="row invoice-info">
+                        <div class="col-xs-6 col-sm-4 invoice-col">
+                            از طرف
+                            <address>
+                                <strong>شرکت تعاونی آسانسور آستان رضا.</strong>
+                                <br>خیابان سید رضی
+                                <br>مشهد, پلاک 94107
+                                <br>تلفن: 09216351266
+                                <br>ایمیل: me@astanlift.com
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-xs-6 col-sm-4 invoice-col">
+                            به
+                            <address>
+                                <strong><%=factor.requester%></strong>
+                                <br><%=factor.city%>
+                                <br>منطقه <%=factor.zone%>
+                                <br><%=factor.address%>
+                                <br>تلفن : <%=factor.phone%>
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-xs-12 col-sm-4 invoice-col">
+                            <span>صورت‌حساب <b dir="ltr">#<%=factor._id%></b></span>
+                            <br>
+                            <span>تاریخ <b dir="ltr" class="jalali"><%=factor.created%></b></span>
+                            <br>
+                            <%if (typeof factor.status!=='undefined'){%>
+                            <b>پرداخت هزینه:</b><%if(factor.status!=='paid'){%>-<%}else{%><%=factor.paykind%><%}%>
+                            <br>
+                            <b>تاریخ پرداخت:</b> <%if(factor.status!=='paid'){%>-<%}else{%><%=factor.paydate%><%}%>
+                            <%}else{%>
+                            <b>پرداخت هزینه:</b> -
+                            <br>
+                            <b>تاریخ پرداخت:</b> -
+                            <%}%>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-xs-12 table">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ردیف</th>
+                                    <th>محصول</th>
+                                    <th style="width: 59%">توضیحات</th>
+                                    <th>قیمت واحد</th>
+                                    <th>تعداد</th>
+                                    <th>قیمت کل</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%for(w=0;w<factor.quantity.length;w++){%>
+                                <tr>
+                                    <td><%=(1+w)%></td>
+                                    <td><%=factor.title[w]%></td>
+                                    <td><%=factor.comment[w]%>
+                                    </td>
+                                    <td class="money"><%=factor.percost[w]%></td>
+                                    <td><%=factor.quantity[w]%></td>
+                                    <td class="money"><%=(factor.percost[w]*factor.quantity[w])%></td>
+                                </tr>
+                                <%}%>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-xs-4">
+                        </div>
+                        <!-- accepted payments column -->
+                        <div class="col-xs-4">
+                            <p class="lead">اطلاعات پرداخت</p>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <th>مالیات (9%)</th>
+                                        <td style="width:50%; text-align: left" class="money"><%=factor.factormaliat%></td>
+                                    </tr>
+                                    <tr>
+                                        <th>قابل پرداخت:</th>
+                                        <td style="width:50%; text-align: left" class="money"><%=factor.factorsum%></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this row will not appear when printing -->
+                    <div class="row no-print hidden-print">
+                        <div class="col-xs-12">
+                            <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> چاپ
+                            </button>
+                            <%if (typeof factor.status==='undefined'){%>
+                            <a data-target=".pay-<%=factor._id%>" data-toggle="modal" class="btn btn-success pull-left"><i class="fa fa-credit-card"></i>
+                                پرداخت
+                            </a>
+                            <div class="modal fade pay-<%=factor._id%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <form method="post" action="../payment">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span
+                                                            aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">پرداخت <%=factor.factorsum%> ریال بابت فاکتور شماره <%=factor._id%></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label ">نوع پرداخت</label>
+                                                    <div class="">
+                                                        <select class="form-control" name="paykind">
+                                                            <option> واریز به حساب</option>
+                                                            <option>نقدی</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label ">تاریخ پرداخت </label>
+                                                    <div class="">
+                                                        <input name="paydate" id="paydate" class="normal-example form-control "     >
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                        <input name="requestid" hidden id="requestid" value="<%=factor.requestid%>"    >
+                                                        <input name="factorid" hidden id="factrid" value="<%=factor._id%>"    >
+                                                        <input name="paysender" hidden id="paysender" value="<%=factor.phone%>"    >
+                                                        <input name="payreciever" hidden id="payreciever" value="<%=factor.sherkatid%>"    >
+                                                        <input name="payamount" hidden id="payamount" value="<%=factor.factorsum%>"    >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label ">توضیحات </label>
+                                                    <div class="">
+                                                        <textarea required name="paycomment" id="paycomment" class="form-control "     ></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                                                <button type="submit" class="btn btn-primary">پرداخت</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <%}%>
+                            <!--<button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-download"></i> ایجاد PDF
+                            </button>-->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="../js/moment-jalaali.js"></script>
+
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Datatables -->
+<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons5.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="../vendors/jszip/dist/jszip.min.js"></script>
+<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persian-datepicker.js"></script>
+<script src="../js/persian-date.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".normal-example").pDatepicker({
+            "inline": false,
+            "format": "L",
+            "viewMode": "year",
+            "initialValue": true,
+            "minDate": null,
+            "maxDate": null,
+            "autoClose": true,
+            "position": "auto",
+            "altFormat": "|",
+            "altField": "#altfieldExample",
+            "onlyTimePicker": false,
+            "onlySelectOnDate": true,
+            "calendarType": "persian",
+            "inputDelay": "1200",
+            "observer": false,
+            "calendar": {
+                "persian": {
+                    "locale": "fa",
+                    "showHint": false,
+                    "leapYearMode": "astronomical"
+                },
+                "gregorian": {
+                    "locale": "en",
+                    "showHint": false
+                }
+            },
+            "navigator": {
+                "enabled": true,
+                "scroll": {
+                    "enabled": true
+                },
+                "text": {
+                    "btnNextText": "<",
+                    "btnPrevText": ">"
+                }
+            },
+            "toolbox": {
+                "enabled": true,
+                "calendarSwitch": {
+                    "enabled": false,
+                    "format": "MMMM"
+                },
+                "todayButton": {
+                    "enabled": false,
+                    "text": {
+                        "fa": "امروز",
+                        "en": "Today"
+                    }
+                },
+                "submitButton": {
+                    "enabled": true,
+                    "text": {
+                        "fa": "تایید",
+                        "en": "Submit"
+                    }
+                },
+                "text": {
+                    "btnToday": "امروز"
+                }
+            },
+            "timePicker": {
+                "enabled": false,
+                "step": 1,
+                "hour": {
+                    "enabled": false,
+                    "step": null
+                },
+                "minute": {
+                    "enabled": false,
+                    "step": null
+                },
+                "second": {
+                    "enabled": false,
+                    "step": null
+                },
+                "meridian": {
+                    "enabled": false
+                }
+            },
+            "dayPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY MMMM"
+            },
+            "monthPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "yearPicker": {
+                "enabled": true,
+                "titleFormat": "YYYY"
+            },
+            "responsive": true
+        });
+    });
+</script>
+<script src="../js/persianumber.js"></script></body>
+</html>

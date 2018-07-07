@@ -1,0 +1,265 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+<div class="x_content">
+    <br>
+    <form method="post" id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">عنوان پکیج
+                <span class="required">*</span>
+            </label>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input id="sabtkind" name="sabtkind" class="hidden"          <% if (typeof sherkat !== 'undefined'){%> value="update" <% } else {%> value="register" <%}%>>
+            <input id="id" name="id" class="hidden"          <% if (typeof sherkat !== 'undefined'){%> value="<%=sherkat._id%>" <%}%>    >
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="packagetitle" name="packagetitle"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.packagetitle%> <%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tawghof">تعداد توقف
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="tawghof" name="tawghof"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.tawghof%> <%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assansorkind"> نوع آسانسور
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="assansorkind" name="assansorkind"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.assansorkind%><%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cabinkind"> نوع کابین
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="cabinkind" name="cabinkind"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.cabinkind%><%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="enginekind"> نوع موتور
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="enginekind" name="enginekind"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.enginekind%><%}%>" required="required" class="form-control col-md-7 col-xs-12" type="text">
+            </div>
+        </div>
+
+    <div/>
+
+        <div class="form-group">
+
+        <div class="input_fields_wrap">
+        <div>
+            <% if (typeof sherkat !== 'undefined'){%>
+            <%for(i=0;i<sherkat.title.length;i++){%>
+        <div class="x_title">
+            <h2>ردیف <%=i+1%></h2>
+
+            <div class="clearfix"></div>
+        </div>
+<div class="x_content">
+        <div class="form-group col-md-4 col-sm-4 ">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">موضوع <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="radif[<%=i%>][title]" value="<%=sherkat.title[i]%>" name="title" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+            </div>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-4 ">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">قیمت واحد <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="radif[<%=i%>][percost]" value="<%=sherkat.percost[i]%>"  name="percost" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+            </div>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-4 ">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="radif[<%=i%>][quantity]" value="<%=sherkat.quantity[i]%>"  name="quantity" class="quantity date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 col-sm-12 ">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input  id="radif[<%=i%>][comment]" value="<%=sherkat.comment[i]%>"  name="comment" class="date-picker form-control col-md-7 col-xs-12"  type="text">
+            </div>
+        </div>
+        <div class=""></div>
+
+        </div>
+            <%}}else {%>
+            <div class="x_title">
+                <h2>ردیف ۱</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">موضوع <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][title]" name="title" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">قیمت واحد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][percost]"  name="percost" class="oneprice date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][quantity]"  name="quantity" class="quantity date-picker form-control col-md-7 col-xs-12" required="required" type="number">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12 ">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="radif[0][comment]" name="comment" class="date-picker form-control col-md-7 col-xs-12"  type="text">
+                    </div>
+                </div>
+                <div class=""></div>
+
+            </div>
+            <%}%>
+        </div>
+        </div>
+            <div class="form-group col-md-4 col-sm-4 ">
+            </div>
+            <table class="table col-md-4 col-sm-4 table-hover">
+                <tbody>
+                <tr>
+                    <th style="width:50%">مجموع:</th>
+
+                    <td  class="money"style="width:50%; text-align: left" id="Grand"><%if(typeof sherkat !== 'undefined'){%><%=sherkat.packagecost%><%}else{%>0<%}%></td>
+                </tr>
+                    <input class="hidden" value="<%if(typeof sherkat !== 'undefined'){%><%=sherkat.packagecost%><%}else{%>0<%}%>" name="packagecost" id="total1">
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="add_field_button btn btn-primary">افزودن ردیف</button>
+                <button type="submit" class="btn btn-primary">انصراف</button>
+                <button type="submit" class="btn btn-success">ثبت</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+
+
+
+
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="../vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="../vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="../vendors/select2/dist/js/select2.full.js"></script>
+<!-- Parsley -->
+<script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="../vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="../vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="../vendors/starrr/dist/starrr.js"></script>
+
+<!-- Custom Theme Scripts -->
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persianumber.js"></script>
+<script src="../js/addpackage.js"></script>
+<script src="../js/autocomplete.js"></script>
+<link href="../css/select2.min.css" rel="stylesheet">
+
+<script>
+    /*An array containing all the country names in the world:*/
+    var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+
+    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+    autocomplete(document.getElementById("teknesian"), countries);
+</script>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        $('.js-example-basic').select2({  tags: true});
+
+    });
+</script>
+<script>
+    function valuecheck() {
+        console.log("valuechek");
+        //document.getElementById("teknesianautocomplete-list").remove();
+        if(!document.getElementById("teknesianid"))
+        {
+            console.log("notfoundteknesianid")
+            document.getElementById("teknesian").value="";
+        }
+        else
+        {
+            console.log("foundteknesianid")
+            if(document.getElementById("teknesianid").value!=="")
+            {
+                console.log("empty");
+                document.getElementById("teknesian").value="";
+            }
+        }
+
+    }
+</script></body>
+</html>
+

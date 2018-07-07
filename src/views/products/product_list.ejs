@@ -1,0 +1,153 @@
+<% include ../partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <% if (typeof message!== 'undefined'){ %>
+        <div class="alert <%=message.kind%> fade in">
+            <strong>  <%=message.content%></strong>
+        </div>
+        <%}%>
+
+        <div class="x_content">
+
+
+            <div class="table-responsive">
+                <table id="datatable-responsive" class="table table-striped jambo_table bulk_action"
+                       cellspacing="0" width="100%">                         <thead>
+                    <tr class="headings">
+
+
+                    <th>شماره کالا</th>
+                        <th>نام کالا</th>
+                        <th>تصویر کالا</th>
+                        <th>دسته بندی کالا</th>
+                        <th>موجودی</th>
+                        <th>قیمت</th>
+                        <th class="last">عملیات
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <%if (typeof products!==null){%>
+                    <%products.forEach(function (product) {%>
+                    <tr class="even pointer">
+                        <td><%=product._id%></td>
+                        <td><%=product.productname%></td>
+                        <td><img src="images/product_pic/<%=product.product_pic%>" class="img-responsive" alt="Cinque Terre" width="120" height="120"> </td>
+                        <td><%=product.catname%></td>
+                        <%if(typeof product.productcount!=='undefined'){%>
+                        <%if(product.productcount>10){%>
+                        <td class="success"><%=product.productcount%></td>
+                        <%}else{%>
+                        <%if(product.productcount>0){%>
+                        <td class="warning"><%=product.productcount%></td>
+                        <%}else{%>
+                        <td class="danger">0</td>
+                        <%}%>
+                        <%}%>
+                        <%}else{%>
+                        <td class="danger">0</td>
+                        <%}%>
+                        <td class="money"><%=product.productcost%></td>
+                        <td class=" last">
+                           <a href="product_detail?shid=<%=product._id%>" class="btn btn-info btn-xs"><i class="fa fa-calendar"></i>  مشاهده </a>
+                            <a href="product_add?shid=<%=product._id%>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> ویرایش </a>
+                            <a href="calendar" class="btn btn-info btn-xs"><i class="fa fa-calendar"></i>  افزودن موجودی </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> غیرفعال کردن </a></a>
+                        </td>
+                    </tr>
+                    <%})}%>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ../partials/footer%>
+
+</div>
+<script src="../vendors/dropzone/dist/min/dropzone.min.js"></script>
+
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons5.min.js"></script>
+<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="../vendors/jszip/dist/jszip.min.js"></script>
+<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="../vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="../vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="../vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="../vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="../vendors/starrr/dist/starrr.js"></script>
+<link href="../css/select2.min.css" rel="stylesheet">
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        $('.js-example-basic').select2({  tags: true});
+
+    });
+</script>
+<script>
+
+    $('#save').click(function(){
+        $('#productdetail').val($('#editor').html());
+        console.log( $('#productdetail').val());
+        console.log("majid");
+
+    });
+</script>
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<!-- /bootstrap-daterangepicker -->
+<script src="../js/persianumber.min.js"></script>
+</body>
+</html>

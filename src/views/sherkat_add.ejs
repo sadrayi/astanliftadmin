@@ -1,0 +1,126 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <%if (typeof message  !== 'undefined' ){%>
+        <div class="alert <%=message.kind%> fade in">
+            <strong>  <%=message.content%></strong>
+        </div>
+        <%}%>
+<div class="x_content">
+    <br>
+    <form id="demo-form2" method="post"  action="/sherkat_add" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input id="sabtkind" name="sabtkind" class="hidden"          <% if (typeof sherkat !== 'undefined'){%> value="update" <% } else {%> value="register" <%}%>
+>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modirname">نام مدیر
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="modirname" name="modirname" required="required" class="form-control col-md-7 col-xs-12" <% if (typeof sherkat !== 'undefined'){%> value="<%=sherkat.modirname%>" <%}%> type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sherkatname">نام
+                شرکت <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="sherkatname" name="sherkatname"  required="required" class="form-control col-md-7 col-xs-12" <% if (typeof sherkat !== 'undefined'){%> value="<%=sherkat.sherkatname%>" <%}%> type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="shomaresabt" class="control-label col-md-3 col-sm-3 col-xs-12">شماره ثبت شرکت<span class="required">*</span>
+                 </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="shomaresabt" <% if ( typeof sherkat !== 'undefined' ) { %> readonly value="<%=sherkat.sabtno%>" <% } %> class="form-control col-md-7 col-xs-12" name="shomaresabt"   required="required"  type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">آدرس شرکت :<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="address" name="address" class="date-picker form-control col-md-7 col-xs-12"  value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.address%><%}%>" required="required" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">شماره تماس شرکت :<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="phone" name="phone" class="date-picker form-control col-md-7 col-xs-12" value="<% if (typeof sherkat !== 'undefined'){%><%=sherkat.phone%><%}%>"  required="required" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">نوع اشتراک</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select class="form-control">
+                    <%for(i=0;i< eshteraks.length;i++){%>
+                    <option><%=eshteraks[i].eshterakname%></option>
+                        <%}%>
+                </select>
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="btn btn-primary">انصراف</button>
+                <button type="submit"  class="btn btn-success">ارسال</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<% include ./partials/footer%>
+<!-- jQuery -->
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="../vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="../vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="../vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="../vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="../vendors/starrr/dist/starrr.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persianumber.js"></script>
+
+
+</body>
+</html>

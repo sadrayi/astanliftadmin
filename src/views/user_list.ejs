@@ -1,0 +1,110 @@
+<% include ./partials/start%>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <% if (typeof message !== 'undefined') {%>
+        <div class="alert <%=message.kind%> fade in">
+            <strong>  <%=message.content%></strong>
+        </div>
+        <%}%>
+                    <div class="x_content">
+
+                        <div id="datatable-responsive_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="datatable-responsive_length"><label>نمایش <select name="datatable-responsive_length" aria-controls="datatable-responsive" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> رکورد</label></div></div><div class="col-sm-6"><div id="datatable-responsive_filter" class="dataTables_filter"><label>جستجو:<input class="form-control input-sm" placeholder="" aria-controls="datatable-responsive" type="search"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;" width="100%" cellspacing="0">
+                            <thead>
+                            <tr role="row">
+                                <th >نام</th>
+                                <th>شماره همراه</th>
+                                <th >شماره قرارداد</th>
+                                <th >تاریخ ثبت نام</th>
+                                <th >تراز مالی</th>
+                                <th >ایمیل</th>
+                                <th>عملیات</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <%if (typeof userlist !== 'undefined') {%>
+                            <%if ( userlist.length>0) {%>
+
+                            <% for(i=0;i< userlist.length;i++) {%>
+
+                            <tr role="row" class="odd">
+                                <td ><%=userlist[i].name%> </td>
+                                <td><%=userlist[i].phone%> </td>
+                                <%if (typeof userlist[i].gharardadno !== 'undefined') { %>
+                                <td> <%=userlist[i].gharardadno%> </td>
+                                <%}  else { %>
+                                <td class="danger">فاقد قرارداد</td>
+                                <%}%>
+                                <td class="jalali"><%=userlist[i].created%> </td>
+                                <td class="money"><%if (typeof userlist[i].taraz !== 'undefined' ){%> <%=userlist[i].taraz%> <%} else { %> 0 <%}%></td>
+                                <td><%=userlist[i].email%> </td>
+                                <td class="nowrap">
+                                    <a href=" " class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> مشاهده </a>
+                                    <a href="user_add?shid=<%=userlist[i].phone%>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> ویرایش </a>
+                                    <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> حذف </a>
+                                </td>
+                            </tr>
+                            <%}}}%>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+    </div>
+</div>
+</div>
+
+
+</div>
+</div>
+<% include ./partials/footer%>
+
+</div>
+
+
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../js/moment-jalaali.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="../vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="../vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="../vendors/parsleyjs/dist/i18n/fa.js"></script>
+<!-- Autosize -->
+<script src="../vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="../vendors/starrr/dist/starrr.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="../js/custom.js"></script>
+<script src="../js/persianumber.js"></script></body>
+</html>
